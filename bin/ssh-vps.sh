@@ -1,0 +1,6 @@
+#!/bin/bash
+
+VPS_IP=209.97.163.237
+VPS_PORT=22
+VPS_USERNAME=mermaid
+ssh -p "$VPS_PORT" "$VPS_USERNAME@$VPS_IP"
