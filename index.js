@@ -30,10 +30,6 @@ var request = require('request');
 
 let day = moment().add(1, 'd').format("YYYY-MM-DD");
 
-app.get("/", async (req,res) => {
-
-    res.send("home",{accounts:'ok'});
-});
 async function datcom() {
     if(new Date().getDay() === 5) {
         day = moment().add(3, 'd').format("YYYY-MM-DD");
