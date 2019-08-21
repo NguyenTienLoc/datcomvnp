@@ -93,6 +93,16 @@ async function datcom() {
         }
     }
 }
-if(new Date().getDay() !== 6) {
-datcom();
+check();
+setInterval(() => {
+    check();
+}, 60*60*1000);
+
+function check(){
+    if(new Date().getDay() !== 6) {
+        if(new Date().getHours()==9){
+            datcom();
+        }
+    }
 }
+
