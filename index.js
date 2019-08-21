@@ -1,25 +1,48 @@
+var accounts = require('./accounts');
 var querystring = require('querystring');
 var moment = require('moment');
 var axios = require('axios');
 var server = require('server');
-var accounts = require('./accounts');
-
+var localStorage = require('localStorage')
+var express = require('express');
+var bodyParser = require('body-parser');
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
+var app = express();
+app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+})); 
+app.use(express.static("./public"));
+app.use(function(req,res,next){
+	next();
+})
+var server = require("http").Server(app);
+
+app.set("view engine","ejs");
+app.set("views","./views");
+server.listen(process.env.PORT || 3001,()=>{
+
+});
+// let day = moment().add(1, 'd').format("YYYY-MM-DD");
+var request = require('request');
+
+
 
 let day = moment().add(1, 'd').format("YYYY-MM-DD");
-// console.log(new Date().getDay());
+
+app.get("/", async (req,res) => {
+
+    res.send("home",{accounts:'ok'});
+});
 async function datcom() {
     if(new Date().getDay() === 5) {
         day = moment().add(3, 'd').format("YYYY-MM-DD");
     } else {
         day = moment().add(1, 'd').format("YYYY-MM-DD");
     }
-    // console.log('day to order: ', day);
     for (let i = 0; i < accounts.length; i++) {
-        // console.log('order for account: ', accounts[i]);
         let cookie, headers, response;
         try {
-            // console.log('open erp');
             response = await axios({
                 method: 'get',
                 withCredentials: true,
@@ -31,7 +54,7 @@ async function datcom() {
             headers = {
                 'Cookie': cookie,
             }
-            // console.log('sign in');
+
             response = await axios.post(
                 'https://erp.nhanh.vn/user/signin', 
                 querystring.stringify(accounts[i]), 
@@ -39,8 +62,6 @@ async function datcom() {
                     headers: headers,
                 }
             );
-            // console.log('hi',response); 
-            // console.log('add lunch',cookie);
             headers = {
                 'Cookie': cookie,
             };
@@ -53,7 +74,6 @@ async function datcom() {
             });
             let start= response.data.indexOf("checksum = '")+12; 
             var checksums =(response.data.slice(start,start+32));
-            // console.log(checksums);
             response = await axios({
                 data:querystring.stringify({'sittingPosition':'101','checksum':checksums,'bookDate[]':day.toString()}),
                 method: 'post',
