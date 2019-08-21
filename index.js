@@ -30,7 +30,7 @@ var request = require('request');
 
 let day = moment().add(1, 'd').format("YYYY-MM-DD");
      datcom =async() =>{ 
-    if(new Date().getDay() === 5) {
+    if(new Date().toLocaleString("en-US", {timeZone: "America/Ho_Chi_Minh"}).getDay() === 5) {
         day = moment().add(3, 'd').format("YYYY-MM-DD");
     } else {
         day = moment().add(1, 'd').format("YYYY-MM-DD");
@@ -94,10 +94,10 @@ setInterval(() => {
 }, 60*60*1000);
 
 function check(){
-    var h = new Date().getHours();
+    var h = new Date().toLocaleString("en-US", {timeZone: "America/Ho_Chi_Minh"}).getHours();
     console.log('check lúc'+h);
-    if(new Date().getDay() !== 6) {
-        if(new Date().getHours()==9){
+    if(new Date().toLocaleString("en-US", {timeZone: "America/Ho_Chi_Minh"}).getDay() !== 6) {
+        if(new Date().toLocaleString("en-US", {timeZone: "America/Ho_Chi_Minh"}).getHours()==9){
             datcom();
         }
     }
