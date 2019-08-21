@@ -21,7 +21,7 @@ var server = require("http").Server(app);
 app.set("view engine","ejs");
 app.set("views","./views");
 server.listen(process.env.PORT || 3001,()=>{
-
+    console.log('server chạy');
 });
 // let day = moment().add(1, 'd').format("YYYY-MM-DD");
 var request = require('request');
@@ -94,6 +94,8 @@ setInterval(() => {
 }, 60*60*1000);
 
 function check(){
+    var h = new Date().getHours();
+    console.log('check lúc'+h);
     if(new Date().getDay() !== 6) {
         if(new Date().getHours()==9){
             datcom();
