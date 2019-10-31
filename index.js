@@ -88,6 +88,7 @@ let day = moment().add(1, 'd').format("YYYY-MM-DD");
         }
     }
 }
+datcom();
 check();
 setInterval(() => {
     check();
