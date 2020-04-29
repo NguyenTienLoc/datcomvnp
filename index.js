@@ -46,6 +46,7 @@ let day = moment().add(1, 'd').format("YYYY-MM-DD");
             });
 
             cookie = response.headers['set-cookie'][0];
+            // console.log('cookie', cookie);
             headers = {
                 'Cookie': cookie,
             }
@@ -89,7 +90,7 @@ let day = moment().add(1, 'd').format("YYYY-MM-DD");
     }
 }
 datcom();
-check();
+// check();
 setInterval(() => {
     check();
 }, 60*60*1000);
