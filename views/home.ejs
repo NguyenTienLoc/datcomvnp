@@ -7,6 +7,9 @@
     <title>Khói</title>
 </head>
 <body>
-    <h1><%= accounts %></h1>
+
+    <% accounts.forEach(function(entry, i, entries){ %>
+        <p><%= entry.username %></p>
+    <% } )%>
 </body>
 </html>

@@ -21,15 +21,16 @@ var server = require("http").Server(app);
 app.set("view engine","ejs");
 app.set("views","./views");
 server.listen(process.env.PORT || 3001,()=>{
-    console.log('server chạy');
+    console.log('server chạy port'+process.env.PORT || 3001);
 });
-// let day = moment().add(1, 'd').format("YYYY-MM-DD");
+app.get('/', function (req, res) {
+    res.render('home', {
+        accounts
+    });
+ })
 var request = require('request');
-
-
-
 let day = moment().add(1, 'd').format("YYYY-MM-DD");
-     datcom =async() =>{ 
+datcom = async() =>{ 
     if(new Date().getDay() === 5) {
         day = moment().add(3, 'd').format("YYYY-MM-DD");
     } else {
@@ -44,13 +45,10 @@ let day = moment().add(1, 'd').format("YYYY-MM-DD");
                 rejectUnauthorized: false,
                 url: 'https://erp.nhanh.vn/',
             });
-
             cookie = response.headers['set-cookie'][0];
-            // console.log('cookie', cookie);
             headers = {
                 'Cookie': cookie,
             }
-
             response = await axios.post(
                 'https://erp.nhanh.vn/user/signin', 
                 querystring.stringify(accounts[i]), 
@@ -79,6 +77,12 @@ let day = moment().add(1, 'd').format("YYYY-MM-DD");
             });
             if(response.data.code===1){
                 console.log('Đặt cơm thành công cho '+accounts[i].username);
+                app.get('/', function (req, res) {
+                    res.send({
+                        accountOK:accounts[i].username
+                    });
+                 })
+                
             }else{
                 console.log('có lỗi xảy ra với tài khoản ' +accounts[i].username);
             }
@@ -91,17 +95,17 @@ let day = moment().add(1, 'd').format("YYYY-MM-DD");
 }
 datcom();
 // check();
-setInterval(() => {
-    check();
-}, 60*60*1000);
+// setInterval(() => {
+//     check();
+// }, 60*60*1000);
 
-function check(){
-    var h = new Date().getHours();
-    console.log('check lúc'+h);
-    if(new Date().getDay() !== 6) {
-        if(new Date().getHours()==9){
-            datcom();
-        }
-    }
-}
+// function check(){
+//     var h = new Date().getHours();
+//     console.log('check lúc'+h);
+//     if(new Date().getDay() !== 6) {
+//         if(new Date().getHours()==9){
+//             datcom();
+//         }
+//     }
+// }
 
